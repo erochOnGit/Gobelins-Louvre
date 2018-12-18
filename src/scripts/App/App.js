@@ -5,14 +5,17 @@
 // TODO : add Stats
 
 var OrbitControls = require("three-orbit-controls")(THREE);
+
 import * as dat from "dat.gui";
+import handleInteraction from "src/utils/handleInteraction";
+import browserCheck from "src/utils/browserCheck";
 
 export default class App {
   constructor() {
-    // this.container = document.querySelector("#main");
     this.container = document.createElement("div");
     this.container.id = "main";
     document.body.appendChild(this.container);
+    document.body.classList.add(browserCheck());
 
     this.camera = new THREE.PerspectiveCamera(
       70,
@@ -22,28 +25,29 @@ export default class App {
     );
     this.camera.position.z = 1;
 
-    this.controls = new OrbitControls(this.camera);
+    // this.controls = new OrbitControls(this.camera);
 
     var size = 10;
     var divisions = 10;
 
-    // DAT.GUI Related Stuff
-
     var gui = new dat.GUI();
 
-    // var cam = gui.addFolder("Camera");
-    // cam.add(this.camera.position, "y", 0.1, 10).listen();
-    // cam.open();
-
     this.scene = new THREE.Scene();
+
+    //handle scroll and click
+    handleInteraction(this);
 
     var gridHelper = new THREE.GridHelper(size, divisions);
     this.scene.add(gridHelper);
 
+    //***************** add obj to the scene ******************/
+
     let geometry = new THREE.BoxGeometry(0.2, 0.2, 0.2);
-    let material = new THREE.MeshNormalMaterial();
+    let material = new THREE.MeshBasicMaterial();
     this.mesh = new THREE.Mesh(geometry, material);
     this.scene.add(this.mesh);
+
+    //**************************** ***************************/
 
     this.renderer = new THREE.WebGLRenderer({ antialias: true });
     this.renderer.setPixelRatio(window.devicePixelRatio);
