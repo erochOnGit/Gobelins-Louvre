@@ -10,20 +10,20 @@ export default class AnimatedTile {
     this.vertexCountX = vertexCount / 2;
     this.vertexCountY = vertexCount / 2;
 
-    this.edgeMaterial = new THREE.MeshPhongMaterial({
+    this.material = new THREE.MeshPhongMaterial({
       transparent: true,
       map: this.texture,
       alphaMap: this.textureAlpha,
       lights: true
     });
 
-    this.edgeGeometry = new THREE.PlaneGeometry(
+    this.geometry = new THREE.PlaneGeometry(
       this.width,
       this.height,
       this.vertexCountX,
       this.vertexCountY
     );
-    this.edgeMesh = new THREE.Mesh(this.edgeGeometry, this.edgeMaterial);
-    this.edgeMesh.position.set(this.x, this.y, this.z);
+    this.mesh = new THREE.Mesh(this.geometry, this.material);
+    this.mesh.position.set(this.x, this.y, this.z);
   }
 }

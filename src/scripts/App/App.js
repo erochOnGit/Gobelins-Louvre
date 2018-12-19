@@ -12,8 +12,9 @@ import browserCheck from "src/utils/browserCheck";
 
 import backgroundTexture from "src/assets/background.jpg";
 
-import Scene from "./Scene";
 import Tile from "./Tile";
+import Fish from "./Fish";
+import Scene from "./Scene";
 import { scene1img, scene2img, scene3img } from "src/utils/sceneImport.js";
 
 export default class App {
@@ -39,8 +40,8 @@ export default class App {
     this.scene = new THREE.Scene();
 
     //handle scroll and click
-    handleInteraction(this);
-    // this.controls = new OrbitControls(this.camera);
+    // handleInteraction(this);
+    this.controls = new OrbitControls(this.camera);
 
     var gridHelper = new THREE.GridHelper(size, divisions);
     this.scene.add(gridHelper);
@@ -62,17 +63,40 @@ export default class App {
 
     this.layer = 0.1;
 
-    // this.scene1 = new Scene(scene1img);
-    // this.scene.add(this.scene1.group);
-    // this.scene1.group.position.set(0, -5, 0);
+    this.scene1 = new Scene(scene1img);
+    this.scene.add(this.scene1.group);
+    this.scene1.group.position.set(0, -5, 0);
 
-    // this.scene2 = new Scene(scene2img);
-    // this.scene.add(this.scene2.group);
-    // this.scene2.group.position.set(0, -12, 0);
+    this.scene2 = new Scene(scene2img);
+    this.scene.add(this.scene2.group);
+    this.scene2.group.position.set(0, -12, 0);
 
     this.scene3 = new Scene(scene3img);
     this.scene.add(this.scene3.group);
     this.scene3.group.position.set(0, -22, 0);
+
+    this.fishes = [];
+
+    for (let i = 0; i < 5; i++) {
+      let fish = new Fish({
+        position: new THREE.Vector3(
+          Math.random() * 2.5,
+          Math.random() * 2.5,
+          1
+        ),
+        velocity: new THREE.Vector3(
+          (Math.random() * 3 - 1.5) / 10,
+          (Math.random() * 3 - 1.5) / 100,
+          0
+        ),
+        width: 0.5,
+        height: 0.5,
+        vertexCount: 10
+      });
+      this.fishes.push(fish);
+      this.scene.add(fish.tileEdge.mesh);
+      this.scene.add(fish.tileColor.mesh);
+    }
 
     //**************************** ***************************/
 
@@ -83,11 +107,17 @@ export default class App {
 
     window.addEventListener("resize", this.onWindowResize.bind(this), false);
     this.onWindowResize();
-
+    this.clock = new THREE.Clock();
     this.renderer.setAnimationLoop(this.render.bind(this));
   }
 
   render() {
+    var delta = this.clock.getDelta();
+    this.fishes.forEach(fish => {
+      fish.flock(this.fishes);
+      fish.limits();
+      fish.update(delta);
+    });
     this.renderer.render(this.scene, this.camera);
   }
 
