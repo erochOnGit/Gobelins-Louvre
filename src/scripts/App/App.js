@@ -17,6 +17,9 @@ import Fish from "./Fish";
 import Scene from "./Scene";
 import { scene1img, scene2img, scene3img } from "src/utils/sceneImport.js";
 
+import Plain from "./Plain";
+import "./rstat.js";
+
 export default class App {
   constructor() {
     this.container = document.createElement("div");
@@ -30,7 +33,7 @@ export default class App {
       0.1,
       1000
     );
-    this.camera.position.z = 15;
+    this.camera.position.z = 10;
 
     var size = 10;
     var divisions = 10;
@@ -43,37 +46,53 @@ export default class App {
     // handleInteraction(this);
     this.controls = new OrbitControls(this.camera);
 
-    var gridHelper = new THREE.GridHelper(size, divisions);
-    this.scene.add(gridHelper);
+    // var gridHelper = new THREE.GridHelper(size, divisions);
+    // this.scene.add(gridHelper);
 
     //**************** add light to the scene *****************/
 
     let ambientLight = new THREE.AmbientLight(0x505050);
     this.scene.add(ambientLight);
-    var directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+    var directionalLight = new THREE.DirectionalLight(0xffffff, 2);
     this.scene.add(directionalLight);
     directionalLight.position.set(0, -10, 4);
 
     //***************** add obj to the scene ******************/
 
     let textureLoaded = new THREE.TextureLoader().load(backgroundTexture);
-    let backgroundTile = new Tile(textureLoaded, 0, 0, 0, 10, 51);
+    let d = this.getDimensionsFromDistance(this.camera.position.z);
+    let backgroundTile = new Plain(
+      textureLoaded,
+      0,
+      0,
+      0 / 100,
+      d.width,
+      d.height
+    );
     this.scene.add(backgroundTile.mesh);
     backgroundTile.mesh.position.set(0, -backgroundTile.height / 2, 0);
 
-    this.layer = 0.1;
+    // for(let i = 0; i<10;  i++) {
+    //   let background = backgroundTile.mesh.clone();
+    //   this.scene.add(background)
+    //   background.position.set(0,-backgroundTile.height-i*2*d.height,0)
+    // }
 
-    this.scene1 = new Scene(scene1img);
+    this.scene1 = new Scene(scene1img, this.camera, 1);
     this.scene.add(this.scene1.group);
     this.scene1.group.position.set(0, -5, 0);
 
-    this.scene2 = new Scene(scene2img);
-    this.scene.add(this.scene2.group);
-    this.scene2.group.position.set(0, -12, 0);
+    // this.scene2 = new Scene(scene2img,this.camera,2)
+    // this.scene.add(this.scene2.group)
+    // this.scene2.group.position.set(0,-22,0)
 
-    this.scene3 = new Scene(scene3img);
-    this.scene.add(this.scene3.group);
-    this.scene3.group.position.set(0, -22, 0);
+    // this.scene3 = new Scene(scene3img,this.camera,3)
+    // this.scene.add(this.scene3.group)
+    // this.scene3.group.position.set(0,-56,0)
+
+    // this.scene4 = new Scene(scene4img,this.camera,4)
+    // this.scene.add(this.scene4.group)
+    // this.scene4.group.position.set(0,-73,0)
 
     this.fishes = [];
 
@@ -108,6 +127,29 @@ export default class App {
     window.addEventListener("resize", this.onWindowResize.bind(this), false);
     this.onWindowResize();
     this.clock = new THREE.Clock();
+
+    this.glS = new glStats(); // init at any point
+    this.tS = new threeStats(this.renderer); // init after WebGLRenderer is created
+
+    this.rS = new rStats({
+      values: {
+        frame: { caption: "Total frame time (ms)", over: 16 },
+        fps: { caption: "Framerate (FPS)", below: 30 },
+        calls: { caption: "Calls (three.js)", over: 3000 },
+        raf: { caption: "Time since last rAF (ms)" },
+        rstats: { caption: "rStats update (ms)" }
+      },
+      groups: [
+        { caption: "Framerate", values: ["fps", "raf"] },
+        {
+          caption: "Frame Budget",
+          values: ["frame", "texture", "setup", "render"]
+        }
+      ],
+      fractions: [{ base: "frame", steps: ["action1", "render"] }],
+      plugins: [this.tS, this.glS]
+    });
+
     this.renderer.setAnimationLoop(this.render.bind(this));
   }
 
@@ -118,12 +160,38 @@ export default class App {
       fish.limits();
       fish.update(delta);
     });
+
+    this.rS("frame").start();
+    this.glS.start();
+
+    this.rS("frame").start();
+    this.rS("rAF").tick();
+    this.rS("FPS").frame();
+    /* Do rendery stuff */
+
+    this.rS("render").start();
+    /* Perform render */
     this.renderer.render(this.scene, this.camera);
+
+    this.rS("render").end();
+
+    this.rS("frame").end();
+    this.rS().update();
   }
 
   onWindowResize() {
     this.camera.aspect = window.innerWidth / window.innerHeight;
     this.camera.updateProjectionMatrix();
     this.renderer.setSize(window.innerWidth, window.innerHeight);
+  }
+
+  getDimensionsFromDistance(dist) {
+    let vFOV = THREE.Math.degToRad(this.camera.fov);
+    let height = 2 * Math.tan(vFOV / 2) * dist;
+    let width = height * this.camera.aspect;
+    return {
+      height: height,
+      width: width
+    };
   }
 }

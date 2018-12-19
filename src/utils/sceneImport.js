@@ -25,4 +25,6 @@ let scene3img = importAll(
   require.context("src/assets/scene3", false, /\.(png|jpe?g|svg)$/)
 );
 
-export { scene1img, scene2img, scene3img };
+let scene4img = importAll(require.context('src/assets/scene4', false, /\.(png|jpe?g|svg)$/));
+
+export { scene1img, scene2img, scene3img, scene4img };
