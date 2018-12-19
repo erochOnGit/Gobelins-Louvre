@@ -21,10 +21,9 @@ export default class Tile {
       transparent: true,
       alphaTest: 0.5
       // color:Math.random()*0x00ffff
+      // wireframe:true
     });
     this.mesh = new THREE.Mesh(this.geometry, this.material);
-    // this.mesh.castShadow = true;
-    // this.mesh.receiveShadow = true;
     this.mesh.position.set(this.x, this.y, this.z);
   }
 }

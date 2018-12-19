@@ -15,11 +15,14 @@ import backgroundTexture from "src/assets/background.jpg";
 import Tile from "./Tile";
 import Fish from "./Fish";
 import Scene from "./Scene";
-import { scene1img, scene2img, scene3img } from "src/utils/sceneImport.js";
 
-import Plain from "./Plain";
+import {
+  scene1img,
+  scene2img,
+  scene3img,
+  scene4img
+} from "src/utils/sceneImport.js";
 import "./rstat.js";
-
 export default class App {
   constructor() {
     this.container = document.createElement("div");
@@ -61,7 +64,7 @@ export default class App {
 
     let textureLoaded = new THREE.TextureLoader().load(backgroundTexture);
     let d = this.getDimensionsFromDistance(this.camera.position.z);
-    let backgroundTile = new Plain(
+    let backgroundTile = new Tile(
       textureLoaded,
       0,
       0,
@@ -72,27 +75,27 @@ export default class App {
     this.scene.add(backgroundTile.mesh);
     backgroundTile.mesh.position.set(0, -backgroundTile.height / 2, 0);
 
-    // for(let i = 0; i<10;  i++) {
-    //   let background = backgroundTile.mesh.clone();
-    //   this.scene.add(background)
-    //   background.position.set(0,-backgroundTile.height-i*2*d.height,0)
-    // }
+    for (let i = 0; i < 10; i++) {
+      let background = backgroundTile.mesh.clone();
+      this.scene.add(background);
+      background.position.set(0, -backgroundTile.height - i * d.height, 0);
+    }
 
     this.scene1 = new Scene(scene1img, this.camera, 1);
     this.scene.add(this.scene1.group);
     this.scene1.group.position.set(0, -5, 0);
 
-    // this.scene2 = new Scene(scene2img,this.camera,2)
-    // this.scene.add(this.scene2.group)
-    // this.scene2.group.position.set(0,-22,0)
+    this.scene2 = new Scene(scene2img, this.camera, 2);
+    this.scene.add(this.scene2.group);
+    this.scene2.group.position.set(0, -15, 0);
 
-    // this.scene3 = new Scene(scene3img,this.camera,3)
-    // this.scene.add(this.scene3.group)
-    // this.scene3.group.position.set(0,-56,0)
+    this.scene3 = new Scene(scene3img, this.camera, 3);
+    this.scene.add(this.scene3.group);
+    this.scene3.group.position.set(0, -35, 0);
 
-    // this.scene4 = new Scene(scene4img,this.camera,4)
-    // this.scene.add(this.scene4.group)
-    // this.scene4.group.position.set(0,-73,0)
+    this.scene4 = new Scene(scene4img, this.camera, 4);
+    this.scene.add(this.scene4.group);
+    this.scene4.group.position.set(0, -45, 0);
 
     this.fishes = [];
 
@@ -141,10 +144,9 @@ export default class App {
       fish.update(delta);
     });
 
-    
     this.renderer.render(this.scene, this.camera);
 
-    
+    // this.camera.position.y -= 0.01
   }
 
   onWindowResize() {
