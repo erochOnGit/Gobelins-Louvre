@@ -13,7 +13,6 @@ import browserCheck from "src/utils/browserCheck";
 import backgroundTexture from "src/assets/background.jpg";
 
 import Tile from "./Tile";
-import Fish from "./Fish";
 import Scene from "./Scene";
 
 import {
@@ -41,13 +40,13 @@ export default class App {
     var size = 10;
     var divisions = 10;
 
-    var gui = new dat.GUI();
+    // var gui = new dat.GUI();
 
     this.scene = new THREE.Scene();
 
     //handle scroll and click
-    // handleInteraction(this);
-    this.controls = new OrbitControls(this.camera);
+    handleInteraction(this);
+    // this.controls = new OrbitControls(this.camera);
 
     // var gridHelper = new THREE.GridHelper(size, divisions);
     // this.scene.add(gridHelper);
@@ -81,46 +80,41 @@ export default class App {
       background.position.set(0, -backgroundTile.height - i * d.height, 0);
     }
 
-    this.scene1 = new Scene(scene1img, this.camera, 1);
-    this.scene.add(this.scene1.group);
-    this.scene1.group.position.set(0, -5, 0);
+    // this.scene1 = new Scene({
+    //   images: scene1img,
+    //   camera: this.camera,
+    //   index: 1
+    // }); // images, camera,
+    // this.scene.add(this.scene1.group);
+    // this.scene1.group.position.set(0, -5, 0);
 
-    this.scene2 = new Scene(scene2img, this.camera, 2);
+    this.scene2 = new Scene({
+      images: scene2img,
+      camera: this.camera,
+      index: 2
+    });
+    this.scene2.addLion(0, 0, 0);
     this.scene.add(this.scene2.group);
     this.scene2.group.position.set(0, -15, 0);
 
-    this.scene3 = new Scene(scene3img, this.camera, 3);
+    this.scene3 = new Scene({
+      images: scene3img,
+
+      camera: this.camera,
+      index: 3
+    });
+    this.fishes = [];
+    this.scene3.addFishes(this.fishes);
     this.scene.add(this.scene3.group);
     this.scene3.group.position.set(0, -35, 0);
 
-    this.scene4 = new Scene(scene4img, this.camera, 4);
+    this.scene4 = new Scene({
+      images: scene4img,
+      camera: this.camera,
+      index: 4
+    });
     this.scene.add(this.scene4.group);
     this.scene4.group.position.set(0, -45, 0);
-
-    this.fishes = [];
-
-    for (let i = 0; i < 5; i++) {
-      let fish = new Fish({
-        position: new THREE.Vector3(
-          Math.random() * 2.5,
-          Math.random() * 2.5,
-          1
-        ),
-        velocity: new THREE.Vector3(
-          (Math.random() * 3 - 1.5) / 10,
-          (Math.random() * 3 - 1.5) / 100,
-          0
-        ),
-        width: 0.5,
-        height: 0.5,
-        vertexCount: 10
-      });
-      this.fishes.push(fish);
-      fish.tileEdge.mesh.renderOrder = 5;
-      fish.tileEdge.material.depthTest = false;
-      this.scene1.group.add(fish.tileEdge.mesh);
-      this.scene1.group.add(fish.tileColor.mesh);
-    }
 
     //**************************** ***************************/
 
@@ -128,10 +122,11 @@ export default class App {
     this.renderer.setPixelRatio(window.devicePixelRatio);
     this.renderer.setSize(window.innerWidth, window.innerHeight);
     this.container.appendChild(this.renderer.domElement);
-
     window.addEventListener("resize", this.onWindowResize.bind(this), false);
     this.onWindowResize();
     this.clock = new THREE.Clock();
+    this.time = this.clock.startTime;
+    console.log(this.clock);
 
     this.renderer.setAnimationLoop(this.render.bind(this));
   }
@@ -143,7 +138,8 @@ export default class App {
       fish.limits();
       fish.update(delta);
     });
-
+    this.time += delta;
+    this.scene4.group.rotation.z = Math.sin(this.time);
     this.renderer.render(this.scene, this.camera);
 
     // this.camera.position.y -= 0.01

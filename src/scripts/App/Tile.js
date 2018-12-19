@@ -21,7 +21,7 @@ export default class Tile {
       transparent: true,
       alphaTest: 0.5
       // color:Math.random()*0x00ffff
-      // wireframe:true
+      // wireframe: true
     });
     this.mesh = new THREE.Mesh(this.geometry, this.material);
     this.mesh.position.set(this.x, this.y, this.z);

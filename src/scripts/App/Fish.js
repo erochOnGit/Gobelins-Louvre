@@ -66,7 +66,11 @@ export default class Fish {
     let steering = new THREE.Vector3();
     let total = 0;
 
-    let center = new THREE.Vector3(this.position.x, 0, this.position.z);
+    let center = new THREE.Vector3(
+      this.position.x + this.velocity.x,
+      0,
+      this.position.z
+    );
     let distance = this.position.distanceTo(center);
 
     steering.add(center);
@@ -74,7 +78,7 @@ export default class Fish {
     steering.sub(this.velocity);
 
     if (steering.length() > 0.00001) {
-      steering.divideScalar(1000);
+      steering.divideScalar(Math.random() * 1000 + 900);
     }
     return steering;
   }
@@ -121,16 +125,16 @@ export default class Fish {
   }
 
   limits() {
-    if (this.position.x > 2.5) {
-      this.position.x = -2.4;
-    } else if (this.position.x < -2.5) {
-      this.position.x = 2.4;
+    if (this.position.x > 7) {
+      this.position.x = -7;
+    } else if (this.position.x < -7) {
+      this.position.x = 7;
     }
-    if (this.position.y > this.limit + 2.5) {
-      this.position.y = 2.4;
+    if (this.position.y > this.limit + 7) {
+      this.position.y = 7;
       this.velocity.x * -1;
-    } else if (this.position.y < -this.limit - 2.5) {
-      this.position.y = -2.4;
+    } else if (this.position.y < -this.limit - 7) {
+      this.position.y = -7;
       this.velocity.x * -1;
     }
     // if (this.position.z > this.limit) {
