@@ -1,5 +1,7 @@
 import { TweenLite } from "gsap/TweenMax";
 
+let tween =null ;
+
 export default app => {
   app.raycaster = new THREE.Raycaster();
   app.mouse = new THREE.Vector2();
@@ -14,10 +16,16 @@ export default app => {
   };
 
   let scrolling = scroll => {
+    if(tween) {
+      tween.kill()
+    }
+    
+    tween = TweenLite.to(app.camera.position, 1, {
+      ease: Power1.easeOut,
+      y: app.camera.position.y - scroll
+    });
 
     // app.camera.position.y += (-scroll - app.camera.position.y) * 0.1
-
-    app.camera.position.y +=-scroll*0.2
   };
   window.addEventListener("wheel", handleWheel.bind(app));
   let raycastClick = event => {
