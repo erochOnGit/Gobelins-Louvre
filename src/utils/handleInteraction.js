@@ -17,7 +17,7 @@ export default app => {
 
     // app.camera.position.y += (-scroll - app.camera.position.y) * 0.1
 
-    app.camera.position.y +=-scroll
+    app.camera.position.y +=-scroll*0.2
   };
   window.addEventListener("wheel", handleWheel.bind(app));
   let raycastClick = event => {

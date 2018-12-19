@@ -20,7 +20,7 @@ export default class Plain {
       map: this.texture,
       transparent: true,
       alphaTest: 0.5,
-      // color:Math.random()*0x00ffff,
+      // color:Math.random()*0x00ffff 
       // wireframe:true
     });
     this.mesh = new THREE.Mesh(this.geometry, this.material);

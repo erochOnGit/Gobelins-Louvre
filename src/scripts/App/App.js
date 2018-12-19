@@ -15,7 +15,7 @@ import backgroundTexture from "src/assets/background.jpg";
 import Scene from "./Scene";
 import Tile from "./Tile";
 import Plain from "./Plain";
-import {scene1img} from "src/utils/sceneImport.js";
+import {scene1img,scene2img,scene3img} from "src/utils/sceneImport.js";
 import "./rstat.js"
 export default class App {
   constructor() {
@@ -63,23 +63,23 @@ export default class App {
     this.scene.add(backgroundTile.mesh);
     backgroundTile.mesh.position.set(0, -backgroundTile.height / 2, 0);
 
-    // for(let i = 0; i<10;  i++) {
-    //   let background = backgroundTile.mesh.clone();
-    //   this.scene.add(background)
-    //   background.position.set(0,-backgroundTile.height-i*2*d.height,0)
-    // }
+    for(let i = 0; i<10;  i++) {
+      let background = backgroundTile.mesh.clone();
+      this.scene.add(background)
+      background.position.set(0,-backgroundTile.height-i*d.height,0)
+    }
 
     this.scene1 = new Scene(scene1img,this.camera,1)
     this.scene.add(this.scene1.group)
     this.scene1.group.position.set(0,-5,0)
     
-    // this.scene2 = new Scene(scene2img,this.camera,2)
-    // this.scene.add(this.scene2.group)
-    // this.scene2.group.position.set(0,-22,0)
+    this.scene2 = new Scene(scene2img,this.camera,2)
+    this.scene.add(this.scene2.group)
+    this.scene2.group.position.set(0,-22,0)
 
-    // this.scene3 = new Scene(scene3img,this.camera,3)
-    // this.scene.add(this.scene3.group)
-    // this.scene3.group.position.set(0,-56,0)
+    this.scene3 = new Scene(scene3img,this.camera,3)
+    this.scene.add(this.scene3.group)
+    this.scene3.group.position.set(0,-56,0)
 
     // this.scene4 = new Scene(scene4img,this.camera,4)
     // this.scene.add(this.scene4.group)
@@ -87,7 +87,7 @@ export default class App {
 
     //**************************** ***************************/
 
-    this.renderer = new THREE.WebGLRenderer({ antialias: true });
+    this.renderer = new THREE.WebGLRenderer({ antialias: false });
     this.renderer.setPixelRatio(window.devicePixelRatio);
     this.renderer.setSize(window.innerWidth, window.innerHeight);
     this.container.appendChild(this.renderer.domElement);
@@ -124,22 +124,24 @@ this.rS = new rStats( {
 
   render() {
 
-    this.rS( 'frame' ).start();
-    this.glS.start();
+    // this.rS( 'frame' ).start();
+    // this.glS.start();
 
-    this.rS( 'frame' ).start();
-    this.rS( 'rAF' ).tick();
-    this.rS( 'FPS' ).frame();    
-    /* Do rendery stuff */
+    // this.rS( 'frame' ).start();
+    // this.rS( 'rAF' ).tick();
+    // this.rS( 'FPS' ).frame();    
+    // /* Do rendery stuff */
     
-    this.rS( 'render' ).start();
-    /* Perform render */
+    // this.rS( 'render' ).start();
+    // /* Perform render */
     this.renderer.render(this.scene, this.camera);
 
-    this.rS( 'render' ).end();
+    // this.rS( 'render' ).end();
     
-    this.rS( 'frame' ).end();
-    this.rS().update();
+    // this.rS( 'frame' ).end();
+    // this.rS().update();
+
+    // this.camera.position.y -= 0.01
 
 
   }
