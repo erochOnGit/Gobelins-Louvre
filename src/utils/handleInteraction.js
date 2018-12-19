@@ -14,10 +14,10 @@ export default app => {
   };
 
   let scrolling = scroll => {
-    TweenLite.to(app.camera.position, 0.3, {
-      ease: Power1.easeOut,
-      y: app.camera.position.y - scroll
-    });
+
+    // app.camera.position.y += (-scroll - app.camera.position.y) * 0.1
+
+    app.camera.position.y +=-scroll
   };
   window.addEventListener("wheel", handleWheel.bind(app));
   let raycastClick = event => {
