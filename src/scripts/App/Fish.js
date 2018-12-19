@@ -98,7 +98,6 @@ export default class Fish {
 
     if (this.velocity.x < 0.01) {
       this.velocity.x = this.velocity.x * 2;
-      console.log(this.velocity.x);
     }
 
     let dx = this.velocity.x;
