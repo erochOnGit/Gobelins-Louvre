@@ -113,13 +113,15 @@ export default class App {
         vertexCount: 10
       });
       this.fishes.push(fish);
-      this.scene.add(fish.tileEdge.mesh);
-      this.scene.add(fish.tileColor.mesh);
+      fish.tileEdge.mesh.renderOrder = 5;
+      fish.tileEdge.material.depthTest = false;
+      this.scene1.group.add(fish.tileEdge.mesh);
+      this.scene1.group.add(fish.tileColor.mesh);
     }
 
     //**************************** ***************************/
 
-    this.renderer = new THREE.WebGLRenderer({ antialias: true });
+    this.renderer = new THREE.WebGLRenderer({ antialias: false });
     this.renderer.setPixelRatio(window.devicePixelRatio);
     this.renderer.setSize(window.innerWidth, window.innerHeight);
     this.container.appendChild(this.renderer.domElement);
@@ -127,28 +129,6 @@ export default class App {
     window.addEventListener("resize", this.onWindowResize.bind(this), false);
     this.onWindowResize();
     this.clock = new THREE.Clock();
-
-    this.glS = new glStats(); // init at any point
-    this.tS = new threeStats(this.renderer); // init after WebGLRenderer is created
-
-    this.rS = new rStats({
-      values: {
-        frame: { caption: "Total frame time (ms)", over: 16 },
-        fps: { caption: "Framerate (FPS)", below: 30 },
-        calls: { caption: "Calls (three.js)", over: 3000 },
-        raf: { caption: "Time since last rAF (ms)" },
-        rstats: { caption: "rStats update (ms)" }
-      },
-      groups: [
-        { caption: "Framerate", values: ["fps", "raf"] },
-        {
-          caption: "Frame Budget",
-          values: ["frame", "texture", "setup", "render"]
-        }
-      ],
-      fractions: [{ base: "frame", steps: ["action1", "render"] }],
-      plugins: [this.tS, this.glS]
-    });
 
     this.renderer.setAnimationLoop(this.render.bind(this));
   }
@@ -161,22 +141,10 @@ export default class App {
       fish.update(delta);
     });
 
-    this.rS("frame").start();
-    this.glS.start();
-
-    this.rS("frame").start();
-    this.rS("rAF").tick();
-    this.rS("FPS").frame();
-    /* Do rendery stuff */
-
-    this.rS("render").start();
-    /* Perform render */
+    
     this.renderer.render(this.scene, this.camera);
 
-    this.rS("render").end();
-
-    this.rS("frame").end();
-    this.rS().update();
+    
   }
 
   onWindowResize() {
