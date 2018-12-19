@@ -10,6 +10,7 @@ import * as dat from "dat.gui";
 import handleInteraction from "src/utils/handleInteraction";
 import browserCheck from "src/utils/browserCheck";
 
+
 export default class App {
   constructor() {
     this.container = document.createElement("div");
