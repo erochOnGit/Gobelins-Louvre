@@ -51,7 +51,7 @@ export default class App {
     //handle scroll and click
     handleInteraction(this);
     this.controls = new OrbitControls(this.camera);
-    this.controls.enabled = false;
+    this.controls.enabled = true;
 
     //**************** add light to the scene *****************/
 
@@ -81,12 +81,12 @@ export default class App {
       d.height
     );
     this.scene.add(backgroundTile.mesh);
-    backgroundTile.mesh.position.set(0, -backgroundTile.height / 2, 0);
+    backgroundTile.mesh.position.set(0, 0, 0);
 
-    for (let i = 0; i < 10; i++) {
+    for (let i = 1; i < 10; i++) {
       let background = backgroundTile.mesh.clone();
       this.scene.add(background);
-      background.position.set(0, -backgroundTile.height - i * d.height, 0);
+      background.position.set(0,  (-d.height*i), 0);
     }
 
     let ratio = 4096 / 2 / 1920;
