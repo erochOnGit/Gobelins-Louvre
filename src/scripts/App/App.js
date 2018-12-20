@@ -57,9 +57,16 @@ export default class App {
 
     let ambientLight = new THREE.AmbientLight(0x505050);
     this.scene.add(ambientLight);
-    var directionalLight = new THREE.DirectionalLight(0xffffff, 2);
-    this.scene.add(directionalLight);
-    directionalLight.position.set(0, -10, 4);
+    // var width = 10;
+    // var height = 10;
+    // var intensity = 1;
+    // var rectLight = new THREE.RectAreaLight( 0xffffff, intensity,  100, 100 );
+    // rectLight.position.set( 0, 0, 10 );
+    // // rectLight.lookAt( 0, 0, 0 );
+    // this.scene.add( rectLight )
+    this.directionalLight = new THREE.DirectionalLight(0xffffff, 0.75);
+    this.scene.add(this.directionalLight);
+    this.directionalLight.position.set(0, 0, 500);
 
     //***************** add obj to the scene ******************/
 
@@ -94,36 +101,40 @@ export default class App {
     this.scene2.addStork(1, 1, 0);
     this.scene2.addStorkWalking(-1, 1, 0);
     this.scene.add(this.scene2.group);
-    this.scene2.group.position.set(0, -2 * d.width * ratio * reduce, 0);
+    this.scene2.group.position.set(0, -1.7 * d.width * ratio * reduce, 0);
 
     this.scene3 = new Scene(scene3img, this.camera, 3);
     this.scene.add(this.scene3.group);
-    this.scene3.group.position.set(0, -4 * d.width * ratio * reduce, 0);
+    this.scene3.group.position.set(0, -3.5 * d.width * ratio * reduce, 0);
 
-    this.scene4 = new Scene(scene4img, this.camera, 4);
+    this.waves = new Scene(scene3img, this.camera, 4);
+    this.scene.add(this.waves.group);
+    this.waves.group.position.set(0, -4.5 * d.width * ratio * reduce, 0);
+
+    this.scene4 = new Scene(scene4img, this.camera, 5);
     this.scene.add(this.scene4.group);
-    this.scene4.group.position.set(0, -5 * d.width * ratio * reduce, 0);
+    this.scene4.group.position.set(0, -4.5 * d.width * ratio * reduce, 0);
 
-    this.scene5 = new Scene(scene5img, this.camera, 5);
+    this.scene5 = new Scene(scene5img, this.camera, 8);
     this.scene.add(this.scene5.group);
     this.scene5.group.position.set(0, -7 * d.width * ratio * reduce, 0);
 
-    this.scene6 = new Scene(scene6img, this.camera, 5);
+    this.scene6 = new Scene(scene6img, this.camera, 6);
     this.scene.add(this.scene6.group);
     this.scene6.group.position.set(0, -8 * d.width * ratio * reduce, 0);
 
-    this.scene7 = new Scene(scene7img, this.camera, 5);
+    this.scene7 = new Scene(scene7img, this.camera, 7);
     this.scene.add(this.scene7.group);
-    this.scene7.group.position.set(0, -9 * d.width * ratio * reduce, 0);
+    this.scene7.group.position.set(0, -9.5 * d.width * ratio * reduce, 0);
 
-    this.scene8 = new Scene(scene8img, this.camera, 6);
+    this.scene8 = new Scene(scene8img, this.camera, 8);
     this.scene.add(this.scene8.group);
-    this.scene8.group.position.set(0, -10 * d.width * ratio * reduce, 0);
+    this.scene8.group.position.set(0, -10.5 * d.width * ratio * reduce, 0);
 
     this.fishes = [];
     this.scene3.addFishes(this.fishes);
     this.scene.add(this.scene3.group);
-    this.scene3.group.position.set(0, -35, 0);
+    // this.scene3.group.position.set(0, -35, 0);
 
     //**************************** ***************************/
 
@@ -154,6 +165,9 @@ export default class App {
     this.composer.render();
 
     // this.camera.position.y -= 0.01
+    this.scene5.hublot(this.time)
+    this.scene3.waves(this.time)
+    this.waves.waves(this.time)
   }
 
   onWindowResize() {

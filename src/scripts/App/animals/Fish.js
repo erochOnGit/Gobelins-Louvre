@@ -106,7 +106,6 @@ export default class Fish {
 
     let dx = this.velocity.x;
     let dy = this.velocity.y;
-    // console.log(Math.atan2(dy, dx));
     this.angle = Math.atan2(dy, dx) + Math.PI;
 
     this.tileEdge.mesh.position.set(
