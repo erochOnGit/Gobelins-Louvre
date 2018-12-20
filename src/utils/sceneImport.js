@@ -24,7 +24,20 @@ let scene2img = importAll(
 let scene3img = importAll(
   require.context("src/assets/scene3", false, /\.(png|jpe?g|svg)$/)
 );
+let scene4img = importAll(
+  require.context("src/assets/scene4", false, /\.(png|jpe?g|svg)$/)
+);
+let scene5img = importAll(
+  require.context("src/assets/scene5", false, /\.(png|jpe?g|svg)$/)
+);
+let scene6img = importAll(
+  require.context("src/assets/scene6", false, /\.(png|jpe?g|svg)$/)
+);
+let scene7img = importAll(
+  require.context("src/assets/scene7", false, /\.(png|jpe?g|svg)$/)
+);
+let scene8img = importAll(
+  require.context("src/assets/scene8", false, /\.(png|jpe?g|svg)$/)
+);
 
-let scene4img = importAll(require.context('src/assets/scene4', false, /\.(png|jpe?g|svg)$/));
-
-export { scene1img, scene2img, scene3img, scene4img };
+export { scene1img, scene2img, scene3img, scene4img, scene5img, scene6img, scene7img,scene8img };

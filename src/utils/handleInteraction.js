@@ -1,6 +1,7 @@
 import { TweenLite } from "gsap/TweenMax";
 
-let tween =null ;
+let tweenC =null ;
+let tweenS =null ;
 
 export default app => {
   app.raycaster = new THREE.Raycaster();
@@ -16,18 +17,63 @@ export default app => {
   };
 
   let scrolling = scroll => {
-    if(tween) {
-      tween.kill()
+    if(tweenC) {
+      tweenC.kill()
+    }
+
+    if(tweenS && scroll>5) {
+      tweenS.kill()
     }
     
-    tween = TweenLite.to(app.camera.position, 1, {
+    tweenC = TweenLite.to(app.camera.position, 0.5, {
       ease: Power1.easeOut,
       y: app.camera.position.y - scroll
     });
 
+    console.log(scroll)
+
+    if(scroll>5) {
+      tweenS = TweenLite.to(app.zoomBlur.uniforms.strength, 0.25, {
+        ease: Power1.easeOut,
+        value: scroll/100,
+        onComplete: () => {
+          TweenLite.to(app.zoomBlur.uniforms.strength, 0.25, {
+            ease: Power1.easeOut,
+            value: 0,
+          });
+        }
+      });
+    }
+
+
+
     // app.camera.position.y += (-scroll - app.camera.position.y) * 0.1
   };
   window.addEventListener("wheel", handleWheel.bind(app));
+  
+  let start = {x:0,y:0};
+  
+  let touchStart = (event) => {
+  
+  start.x = event.touches[0].pageX;
+  start.y = event.touches[0].pageY;
+  }
+  
+  let touchMove = (event) => {
+  
+  let offset = {};
+  
+  offset.x = start.x - event.touches[0].pageX;
+  offset.y = start.y - event.touches[0].pageY;
+
+  app.camera.position.y += -offset.y/2000
+  
+  }
+
+  window.addEventListener("touchstart", touchStart.bind(app), false);
+  window.addEventListener("touchmove", touchMove.bind(app), false);
+
+
   let raycastClick = event => {
     // calculate mouse position in normalized device coordinates
     // (-1 to +1) for both components
@@ -44,5 +90,5 @@ export default app => {
       app.intersects[i].object.material.color.set(0xff0000);
     }
   };
-  window.addEventListener("click", raycastClick.bind(app));
+  // window.addEventListener("click", raycastClick.bind(app));
 };
