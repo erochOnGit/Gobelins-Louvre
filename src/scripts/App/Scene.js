@@ -20,7 +20,6 @@ export default class Scene {
                 layer *= 0.5
 
                 let partie = parseInt(Object.keys(this.images)[i].match(/(PARTIE_\d+(\.\d)*)/g)[0].split('PARTIE_')[1])-1
-                console.log(partie)
                 let d = this.getDimensionsFromDistance(this.camera.position.z-layer)
               let height = (4096/2)/1920
               let textureLoaded = new THREE.TextureLoader().load(texture);

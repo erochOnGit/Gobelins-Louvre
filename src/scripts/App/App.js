@@ -7,12 +7,18 @@ import browserCheck from "src/utils/browserCheck";
 import backgroundTexture from "src/assets/background.jpg";
 
 import Scene from "./Scene";
+import Plain from "./Plain";
+import Fish from "./Fish";
 
 import {
   scene1img,
   scene2img,
   scene3img,
-  scene4img
+  scene4img,
+  scene5img,
+  scene6img,
+  scene7img,
+  scene8img
 } from "src/utils/sceneImport.js";
 import "./rstat.js";
 
@@ -95,30 +101,47 @@ export default class App {
     this.scene.add(this.scene4.group);
     this.scene4.group.position.set(0, -5*d.width*ratio*reduce, 0);
 
+    this.scene5 = new Scene(scene5img, this.camera, 5);
+    this.scene.add(this.scene5.group);
+    this.scene5.group.position.set(0, -7*d.width*ratio*reduce, 0);
+
+    this.scene6 = new Scene(scene6img, this.camera, 5);
+    this.scene.add(this.scene6.group);
+    this.scene6.group.position.set(0, -8*d.width*ratio*reduce, 0);
+
+    this.scene7 = new Scene(scene7img, this.camera, 5);
+    this.scene.add(this.scene7.group);
+    this.scene7.group.position.set(0, -9*d.width*ratio*reduce, 0);
+
+    this.scene8 = new Scene(scene8img, this.camera, 6);
+    this.scene.add(this.scene8.group);
+    this.scene8.group.position.set(0, -10*d.width*ratio*reduce, 0);
+
+
     this.fishes = [];
 
-    for (let i = 0; i < 5; i++) {
-      let fish = new Fish({
-        position: new THREE.Vector3(
-          Math.random() * 2.5,
-          Math.random() * 2.5,
-          1
-        ),
-        velocity: new THREE.Vector3(
-          (Math.random() * 3 - 1.5) / 10,
-          (Math.random() * 3 - 1.5) / 100,
-          0
-        ),
-        width: 0.5,
-        height: 0.5,
-        vertexCount: 10
-      });
-      this.fishes.push(fish);
-      fish.tileEdge.mesh.renderOrder = 5;
-      fish.tileEdge.material.depthTest = false;
-      this.scene1.group.add(fish.tileEdge.mesh);
-      this.scene1.group.add(fish.tileColor.mesh);
-    }
+    // for (let i = 0; i < 5; i++) {
+    //   let fish = new Fish({
+    //     position: new THREE.Vector3(
+    //       Math.random() * 2.5,
+    //       Math.random() * 2.5,
+    //       1
+    //     ),
+    //     velocity: new THREE.Vector3(
+    //       (Math.random() * 3 - 1.5) / 10,
+    //       (Math.random() * 3 - 1.5) / 100,
+    //       0
+    //     ),
+    //     width: 0.5,
+    //     height: 0.5,
+    //     vertexCount: 10
+    //   });
+    //   this.fishes.push(fish);
+    //   fish.tileEdge.mesh.renderOrder = 5;
+    //   fish.tileEdge.material.depthTest = false;
+    //   this.scene1.group.add(fish.tileEdge.mesh);
+    //   this.scene1.group.add(fish.tileColor.mesh);
+    // }
 
     //**************************** ***************************/
 
@@ -132,29 +155,29 @@ export default class App {
     window.addEventListener("resize", this.onWindowResize.bind(this), false);
     this.onWindowResize();
 
-    this.glS = new glStats(); // init at any point      
-    this.tS = new threeStats( this.renderer ); // init after WebGLRenderer is created
+//     this.glS = new glStats(); // init at any point      
+//     this.tS = new threeStats( this.renderer ); // init after WebGLRenderer is created
 
-this.rS = new rStats( {
-    values: {
-        frame: { caption: 'Total frame time (ms)', over: 16 },
-        fps: { caption: 'Framerate (FPS)', below: 30 },
-        calls: { caption: 'Calls (three.js)', over: 3000 },
-        raf: { caption: 'Time since last rAF (ms)' },
-        rstats: { caption: 'rStats update (ms)' }
-    },
-    groups: [
-        { caption: 'Framerate', values: [ 'fps', 'raf' ] },
-        { caption: 'Frame Budget', values: [ 'frame', 'texture', 'setup', 'render' ] }
-    ],
-    fractions: [
-        { base: 'frame', steps: [ 'action1', 'render' ] }
-    ],
-    plugins: [
-      this.tS,
-      this.glS
-    ]
-} );
+// this.rS = new rStats( {
+//     values: {
+//         frame: { caption: 'Total frame time (ms)', over: 16 },
+//         fps: { caption: 'Framerate (FPS)', below: 30 },
+//         calls: { caption: 'Calls (three.js)', over: 3000 },
+//         raf: { caption: 'Time since last rAF (ms)' },
+//         rstats: { caption: 'rStats update (ms)' }
+//     },
+//     groups: [
+//         { caption: 'Framerate', values: [ 'fps', 'raf' ] },
+//         { caption: 'Frame Budget', values: [ 'frame', 'texture', 'setup', 'render' ] }
+//     ],
+//     fractions: [
+//         { base: 'frame', steps: [ 'action1', 'render' ] }
+//     ],
+//     plugins: [
+//       this.tS,
+//       this.glS
+//     ]
+// } );
 
     this.renderer.setAnimationLoop(this.render.bind(this));
 
@@ -168,10 +191,10 @@ this.rS = new rStats( {
 
     // this.zoomBlur.uniforms.strength.value -= 0.001
 
-    this.rS( 'render' ).end();
+    // this.rS( 'render' ).end();
     
-    this.rS( 'frame' ).end();
-    this.rS().update();
+    // this.rS( 'frame' ).end();
+    // this.rS().update();
 
     // this.camera.position.y -= 0.01
 

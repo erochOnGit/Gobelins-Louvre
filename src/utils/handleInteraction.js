@@ -50,6 +50,30 @@ export default app => {
     // app.camera.position.y += (-scroll - app.camera.position.y) * 0.1
   };
   window.addEventListener("wheel", handleWheel.bind(app));
+  
+  let start = {x:0,y:0};
+  
+  let touchStart = (event) => {
+  
+  start.x = event.touches[0].pageX;
+  start.y = event.touches[0].pageY;
+  }
+  
+  let touchMove = (event) => {
+  
+  let offset = {};
+  
+  offset.x = start.x - event.touches[0].pageX;
+  offset.y = start.y - event.touches[0].pageY;
+
+  app.camera.position.y += -offset.y/2000
+  
+  }
+
+  window.addEventListener("touchstart", touchStart.bind(app), false);
+  window.addEventListener("touchmove", touchMove.bind(app), false);
+
+
   let raycastClick = event => {
     // calculate mouse position in normalized device coordinates
     // (-1 to +1) for both components
