@@ -94,6 +94,8 @@ export default class App {
       index: 2
     });
     this.scene2.addLion(0, 0, 0);
+    this.scene2.addStork(1, 1, 0);
+    this.scene2.addStorkWalking(-1, 1, 0);
     this.scene.add(this.scene2.group);
     this.scene2.group.position.set(0, -15, 0);
 

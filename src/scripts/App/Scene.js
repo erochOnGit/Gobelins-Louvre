@@ -1,6 +1,8 @@
 import Plain from "./Plain";
-import Fish from "./Fish";
-import Lion from "./Lion";
+import Fish from "./animals/Fish";
+import Lion from "./animals/Lion";
+import Stork from "./animals/Stork";
+import StorkWalking from "./animals/StorkWalking";
 
 export default class Scene {
   constructor({ images, camera, index }) {
@@ -14,7 +16,7 @@ export default class Scene {
 
   addFishes(fishes) {
     this.fishes = [];
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < 20; i++) {
       console.log(this.illustrations.length);
       let fish = new Fish({
         position: new THREE.Vector3(
@@ -42,6 +44,7 @@ export default class Scene {
       this.group.add(fish.tileColor.mesh);
     }
   }
+
   addLion(x, y, z) {
     let lion = new Lion({
       position: new THREE.Vector3(x, y, z),
@@ -56,6 +59,38 @@ export default class Scene {
 
     this.group.add(lion.tileEdge.mesh);
     this.group.add(lion.tileColor.mesh);
+  }
+
+  addStork(x, y, z) {
+    let stork = new Stork({
+      position: new THREE.Vector3(x, y, z),
+      width: 2,
+      height: 2,
+      vertexCount: 10
+    });
+    stork.tileEdge.mesh.renderOrder = this.index;
+    stork.tileColor.mesh.renderOrder = this.index;
+    stork.tileEdge.mesh.position.set(x, y, 2);
+    stork.tileColor.mesh.position.set(x, y, 2);
+
+    this.group.add(stork.tileEdge.mesh);
+    this.group.add(stork.tileColor.mesh);
+  }
+
+  addStorkWalking(x, y, z) {
+    let storkWalking = new StorkWalking({
+      position: new THREE.Vector3(x, y, z),
+      width: 2,
+      height: 2,
+      vertexCount: 10
+    });
+    storkWalking.tileEdge.mesh.renderOrder = this.index;
+    storkWalking.tileColor.mesh.renderOrder = this.index;
+    storkWalking.tileEdge.mesh.position.set(x, y, 2);
+    storkWalking.tileColor.mesh.position.set(x, y, 2);
+
+    this.group.add(storkWalking.tileEdge.mesh);
+    this.group.add(storkWalking.tileColor.mesh);
   }
   addImages() {
     for (let i = 0; i < Object.keys(this.images).length; i++) {

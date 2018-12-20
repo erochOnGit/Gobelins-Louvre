@@ -1,4 +1,4 @@
-import AnimatedTile from "./AnimatedTile";
+import AnimatedTile from "../AnimatedTile";
 import lionColor from "src/assets/animations/lion/sprite-lion-couleur.png";
 import lionEdge from "src/assets/animations/lion/sprite-lion-trait.png";
 import TextureAnimator from "src/utils/TextureAnimator";

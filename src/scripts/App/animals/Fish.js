@@ -1,4 +1,4 @@
-import AnimatedTile from "./AnimatedTile";
+import AnimatedTile from "../AnimatedTile";
 import fishColor from "src/assets/animations/fish/sprite-poisson-couleurs.png";
 import fishEdge from "src/assets/animations/fish/sprite-poisson-trait.png";
 import TextureAnimator from "src/utils/TextureAnimator";
