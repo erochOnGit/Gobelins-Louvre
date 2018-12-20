@@ -16,7 +16,7 @@ export default class Tile {
       this.vertexCountY
     );
 
-    this.material = new THREE.MeshStandardMaterial({
+    this.material = new THREE.MeshLambertMaterial({
       map: this.texture,
       transparent: true,
       alphaTest: 0.5

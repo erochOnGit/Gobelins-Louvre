@@ -4,6 +4,8 @@ import Lion from "./animals/Lion";
 import Stork from "./animals/Stork";
 import StorkWalking from "./animals/StorkWalking";
 
+import SimplexNoise from 'simplex-noise'
+
 export default class Scene {
   constructor(images, camera, index) {
     this.group = new THREE.Group();
@@ -12,6 +14,7 @@ export default class Scene {
     this.index = index.toString();
     this.illustrations = [];
     this.addImages();
+    this.simplex = new SimplexNoise();
   }
 
   addFishes(fishes) {
@@ -129,7 +132,11 @@ export default class Scene {
         );
         illu.mesh.scale.set(1, -1, -1);
 
-        this.illustrations.push(illu.mesh);
+        this.illustrations.push({
+          mesh: illu.mesh,
+          y: layer,
+          x: -partie * d.width * height
+        });
         illu.mesh.renderOrder = this.index;
         illu.material.depthTest = false;
         this.group.add(illu.mesh);
@@ -147,5 +154,19 @@ export default class Scene {
       height: height,
       width: width
     };
+  }
+
+  waves(t) {
+    this.illustrations.forEach((wave)=>{
+      wave.mesh.position.x = this.simplex.noise2D(wave.y, t/5)/2
+      wave.mesh.position.y = wave.x + this.simplex.noise2D(wave.y, t/5)/3
+      this.group.scale.set(1.1,1.1,1.1)
+    })
+  }
+
+  hublot(t) {
+    let wave = this.illustrations[0]
+      wave.mesh.position.x = this.simplex.noise2D(wave.x, t/5)/2
+      wave.mesh.position.y = wave.x + this.simplex.noise2D(wave.y, t/5)/3
   }
 }

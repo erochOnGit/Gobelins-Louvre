@@ -33,7 +33,7 @@ export default app => {
 
     if (scroll > 5) {
       tweenS = TweenLite.to(app.zoomBlur.uniforms.strength, 0.25, {
-        ease: Power1.easeOut,
+        ease: Power1.easeIn,
         value: scroll / 100,
         onComplete: () => {
           TweenLite.to(app.zoomBlur.uniforms.strength, 0.25, {
@@ -68,6 +68,7 @@ export default app => {
   window.addEventListener("touchmove", touchMove.bind(app), false);
 
   let raycastClick = event => {
+    console.log(event)
     // calculate mouse position in normalized device coordinates
     // (-1 to +1) for both components
     app.mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
@@ -77,7 +78,8 @@ export default app => {
     app.raycaster.setFromCamera(app.mouse, app.camera);
 
     // calculate objects intersecting the picking ray
-    app.intersects = app.raycaster.intersectObjects(app.scene.children);
+    app.intersects = app.raycaster.intersectObjects(app.scene.children,true);
+    console.log(app.intersects)
 
     for (var i = 0; i < app.intersects.length; i++) {
       app.intersects[i].object.material.color.set(0xff0000);

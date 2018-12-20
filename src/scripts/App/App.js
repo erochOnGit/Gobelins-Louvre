@@ -57,9 +57,16 @@ export default class App {
 
     let ambientLight = new THREE.AmbientLight(0x505050);
     this.scene.add(ambientLight);
-    var directionalLight = new THREE.DirectionalLight(0xffffff, 2);
-    this.scene.add(directionalLight);
-    directionalLight.position.set(0, -10, 4);
+    // var width = 10;
+    // var height = 10;
+    // var intensity = 1;
+    // var rectLight = new THREE.RectAreaLight( 0xffffff, intensity,  100, 100 );
+    // rectLight.position.set( 0, 0, 10 );
+    // // rectLight.lookAt( 0, 0, 0 );
+    // this.scene.add( rectLight )
+    this.directionalLight = new THREE.DirectionalLight(0xffffff, 0.75);
+    this.scene.add(this.directionalLight);
+    this.directionalLight.position.set(0, 0, 500);
 
     //***************** add obj to the scene ******************/
 
@@ -108,7 +115,7 @@ export default class App {
     this.scene.add(this.scene4.group);
     this.scene4.group.position.set(0, -4.5 * d.width * ratio * reduce, 0);
 
-    this.scene5 = new Scene(scene5img, this.camera, 6);
+    this.scene5 = new Scene(scene5img, this.camera, 8);
     this.scene.add(this.scene5.group);
     this.scene5.group.position.set(0, -7 * d.width * ratio * reduce, 0);
 
@@ -158,6 +165,9 @@ export default class App {
     this.composer.render();
 
     // this.camera.position.y -= 0.01
+    this.scene5.hublot(this.time)
+    this.scene3.waves(this.time)
+    this.waves.waves(this.time)
   }
 
   onWindowResize() {
