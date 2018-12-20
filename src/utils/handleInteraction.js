@@ -30,7 +30,6 @@ export default app => {
       y: app.camera.position.y - scroll
     });
 
-    // console.log(scroll)
 
     if (scroll > 5) {
       tweenS = TweenLite.to(app.zoomBlur.uniforms.strength, 0.25, {
@@ -81,7 +80,6 @@ export default app => {
     app.intersects = app.raycaster.intersectObjects(app.scene.children);
 
     for (var i = 0; i < app.intersects.length; i++) {
-      console.log(app.intersects[i]);
       app.intersects[i].object.material.color.set(0xff0000);
     }
   };

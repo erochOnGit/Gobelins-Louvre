@@ -1,4 +1,4 @@
-import tile from "./tile";
+import Tile from "./Tile";
 import Fish from "./animals/Fish";
 import Lion from "./animals/Lion";
 import Stork from "./animals/Stork";
@@ -17,7 +17,6 @@ export default class Scene {
   addFishes(fishes) {
     this.fishes = [];
     for (let i = 0; i < 20; i++) {
-      console.log(this.illustrations.length);
       let fish = new Fish({
         position: new THREE.Vector3(
           Math.random() * 2.5,
