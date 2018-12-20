@@ -108,13 +108,13 @@ export default class App {
     this.scene.add(this.scene3.group);
     this.scene3.group.position.set(0, -35, 0);
 
-    this.scene4 = new Scene({
-      images: scene4img,
-      camera: this.camera,
-      index: 4
-    });
-    this.scene.add(this.scene4.group);
-    this.scene4.group.position.set(0, -45, 0);
+    // this.scene4 = new Scene({
+    //   images: scene4img,
+    //   camera: this.camera,
+    //   index: 4
+    // });
+    // this.scene.add(this.scene4.group);
+    // this.scene4.group.position.set(0, -45, 0);
 
     //**************************** ***************************/
 
@@ -139,7 +139,7 @@ export default class App {
       fish.update(delta);
     });
     this.time += delta;
-    this.scene4.group.rotation.z = Math.sin(this.time);
+    // this.scene4.group.rotation.z = Math.sin(this.time);
     this.renderer.render(this.scene, this.camera);
 
     // this.camera.position.y -= 0.01
