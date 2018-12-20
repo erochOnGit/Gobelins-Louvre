@@ -1,4 +1,8 @@
-import Tile from "./Tile";
+import tile from "./tile";
+import Fish from "./animals/Fish";
+import Lion from "./animals/Lion";
+import Stork from "./animals/Stork";
+import StorkWalking from "./animals/StorkWalking";
 
 export default class Scene {
   constructor(images, camera, index) {
@@ -10,6 +14,84 @@ export default class Scene {
     this.addImages();
   }
 
+  addFishes(fishes) {
+    this.fishes = [];
+    for (let i = 0; i < 20; i++) {
+      console.log(this.illustrations.length);
+      let fish = new Fish({
+        position: new THREE.Vector3(
+          Math.random() * 2.5,
+          Math.random() * 2.5,
+          this.illustrations.length * 0.5 - 2 - Math.floor(i / 3)
+        ),
+        velocity: new THREE.Vector3(
+          (Math.random() * 3 - 1.5) / 10,
+          (Math.random() * 3 - 1.5) / 100,
+          0
+        ),
+        width: 0.5,
+        height: 0.5,
+        vertexCount: 10
+      });
+
+      fishes.push(fish);
+      this.fishes.push(fish);
+      fish.tileEdge.mesh.renderOrder = this.index;
+      fish.tileColor.mesh.renderOrder = this.index;
+      // fish.tileEdge.material.depthTest = false;
+      // fish.tileColor.material.depthTest = false;
+      this.group.add(fish.tileEdge.mesh);
+      this.group.add(fish.tileColor.mesh);
+    }
+  }
+
+  addLion(x, y, z) {
+    let lion = new Lion({
+      position: new THREE.Vector3(x, y, z),
+      width: 2,
+      height: 2,
+      vertexCount: 10
+    });
+    lion.tileEdge.mesh.renderOrder = this.index;
+    lion.tileColor.mesh.renderOrder = this.index;
+    lion.tileEdge.mesh.position.set(x, y, 2);
+    lion.tileColor.mesh.position.set(x, y, 2);
+
+    this.group.add(lion.tileEdge.mesh);
+    this.group.add(lion.tileColor.mesh);
+  }
+
+  addStork(x, y, z) {
+    let stork = new Stork({
+      position: new THREE.Vector3(x, y, z),
+      width: 2,
+      height: 2,
+      vertexCount: 10
+    });
+    stork.tileEdge.mesh.renderOrder = this.index;
+    stork.tileColor.mesh.renderOrder = this.index;
+    stork.tileEdge.mesh.position.set(x, y, 2);
+    stork.tileColor.mesh.position.set(x, y, 2);
+
+    this.group.add(stork.tileEdge.mesh);
+    this.group.add(stork.tileColor.mesh);
+  }
+
+  addStorkWalking(x, y, z) {
+    let storkWalking = new StorkWalking({
+      position: new THREE.Vector3(x, y, z),
+      width: 2,
+      height: 2,
+      vertexCount: 10
+    });
+    storkWalking.tileEdge.mesh.renderOrder = this.index;
+    storkWalking.tileColor.mesh.renderOrder = this.index;
+    storkWalking.tileEdge.mesh.position.set(x, y, 2);
+    storkWalking.tileColor.mesh.position.set(x, y, 2);
+
+    this.group.add(storkWalking.tileEdge.mesh);
+    this.group.add(storkWalking.tileColor.mesh);
+  }
   addImages() {
     for (let i = 0; i < Object.keys(this.images).length; i++) {
       let mesh = [];
