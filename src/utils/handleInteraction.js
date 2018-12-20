@@ -4,6 +4,7 @@ let tweenC = null;
 let tweenS = null;
 
 export default app => {
+  console.log(app);
   app.raycaster = new THREE.Raycaster();
   app.mouse = new THREE.Vector2();
   app.intersects = [];
@@ -95,7 +96,7 @@ export default app => {
     app.raycaster.setFromCamera(app.mouse, app.camera);
 
     // calculate objects intersecting the picking ray
-    app.intersects = app.raycaster.intersectObjects(app.scene.children);
+    app.intersects = app.raycaster.intersectObjects(app.scene.children, true);
 
     for (var i = 0; i < app.intersects.length; i++) {
       app.intersects[i].object.material.color.set(0xff0000);

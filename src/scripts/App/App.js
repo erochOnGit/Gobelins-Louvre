@@ -1,13 +1,11 @@
-var OrbitControls = require("three-orbit-controls")(THREE);
-
 import * as dat from "dat.gui";
-import handleInteraction from "src/utils/handleInteraction";
 import browserCheck from "src/utils/browserCheck";
 
 import backgroundTexture from "src/assets/background.jpg";
 
 import Tile from "./Tile";
 import Scene from "./Scene";
+import LandingPage from "./LandingPage";
 
 import {
   scene1img,
@@ -29,7 +27,6 @@ import "three/examples/js/postprocessing/RenderPass";
 import "three/examples/js/postprocessing/ShaderPass";
 import "three/examples/js/postprocessing/UnrealBloomPass";
 import "three/examples/js/shaders/LuminosityHighPassShader";
-//composer
 
 export default class App {
   constructor() {
@@ -44,14 +41,17 @@ export default class App {
       0.1,
       1000
     );
-    this.camera.position.z = 10;
+    this.camera.position.z = 20;
 
     this.scene = new THREE.Scene();
 
+    this.landingPage = new LandingPage(this);
+    this.scene.add(this.landingPage.group);
+
     //handle scroll and click
-    handleInteraction(this);
-    this.controls = new OrbitControls(this.camera);
-    this.controls.enabled = false;
+    // handleInteraction(this);
+    // this.controls = new OrbitControls(this.camera);
+    // this.controls.enabled = false;
 
     //**************** add light to the scene *****************/
 
@@ -138,7 +138,6 @@ export default class App {
     this.onWindowResize();
     this.clock = new THREE.Clock();
     this.time = this.clock.startTime;
-    console.log(this.clock);
 
     this.renderer.setAnimationLoop(this.render.bind(this));
   }

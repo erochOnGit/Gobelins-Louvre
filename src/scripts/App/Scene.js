@@ -1,4 +1,4 @@
-import tile from "./tile";
+import Tile from "./Tile";
 import Fish from "./animals/Fish";
 import Lion from "./animals/Lion";
 import Stork from "./animals/Stork";
@@ -17,7 +17,6 @@ export default class Scene {
   addFishes(fishes) {
     this.fishes = [];
     for (let i = 0; i < 20; i++) {
-      console.log(this.illustrations.length);
       let fish = new Fish({
         position: new THREE.Vector3(
           Math.random() * 2.5,
@@ -38,8 +37,8 @@ export default class Scene {
       this.fishes.push(fish);
       fish.tileEdge.mesh.renderOrder = this.index;
       fish.tileColor.mesh.renderOrder = this.index;
-      // fish.tileEdge.material.depthTest = false;
-      // fish.tileColor.material.depthTest = false;
+      fish.tileEdge.material.depthTest = false;
+      fish.tileColor.material.depthTest = false;
       this.group.add(fish.tileEdge.mesh);
       this.group.add(fish.tileColor.mesh);
     }
