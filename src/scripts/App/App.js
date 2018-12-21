@@ -4,7 +4,7 @@ import browserCheck from "src/utils/browserCheck";
 import backgroundTexture from "src/assets/background.jpg";
 // import chapitre1 from "src/assets/2.png"
 // import chapitre1 from "src/assets/2.png"
-import chapitre1 from "src/assets/sprite-test2.png";
+import chapitre1 from "src/assets/sprite-chapitre-1.png";
 
 import Tile from "./Tile";
 import Scene from "./Scene";
@@ -94,7 +94,7 @@ export default class App {
 
     let textureLoader = new THREE.TextureLoader();
     this.chapter = textureLoader.load(chapitre1);
-    this.animationChapter = new TextureAnimator(this.chapter, 16, 1, 16, 75); // texture, #horiz, #vert, #total, duration.
+    this.animationChapter = new TextureAnimator(this.chapter, 30, 1, 30, 75); // texture, #horiz, #vert, #total, duration.
 
     this.tileChapter = new AnimatedTile(
       this.chapter,
@@ -345,7 +345,6 @@ export default class App {
   }
 
   getCurrentScene() {
-    console.log(this.scrollAmount);
     if (
       this.scrollAmount < -17 &&
       this.scrollAmount > -65 &&
