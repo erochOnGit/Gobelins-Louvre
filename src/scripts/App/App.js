@@ -2,10 +2,14 @@ import * as dat from "dat.gui";
 import browserCheck from "src/utils/browserCheck";
 
 import backgroundTexture from "src/assets/background.jpg";
+import chapitre1 from "src/assets/sprite-chapitre.png"
 
 import Tile from "./Tile";
 import Scene from "./Scene";
 import LandingPage from "./LandingPage";
+
+import TextureAnimator from 'src/utils/TextureAnimator'
+import AnimatedTile from './AnimatedTile'
 
 import {
   scene1img,
@@ -49,9 +53,15 @@ export default class App {
     this.scene.add(this.landingPage.group);
 
     //handle scroll and click
+<<<<<<< HEAD
     // handleInteraction(this);
     // this.controls = new OrbitControls(this.camera);
     // this.controls.enabled = false;
+=======
+    handleInteraction(this);
+    this.controls = new OrbitControls(this.camera);
+    this.controls.enabled = true;
+>>>>>>> feature/clemBis
 
     //**************** add light to the scene *****************/
 
@@ -70,8 +80,30 @@ export default class App {
 
     //***************** add obj to the scene ******************/
 
-    let textureLoaded = new THREE.TextureLoader().load(backgroundTexture);
     let d = this.getDimensionsFromDistance(this.camera.position.z);
+
+
+
+
+
+    let textureLoader = new THREE.TextureLoader();
+    this.chapter = textureLoader.load(chapitre1);
+    this.animationChapter = new TextureAnimator(this.chapter, 8, 5, 60, 75); // texture, #horiz, #vert, #total, duration.
+
+    this.tileChapter = new AnimatedTile(
+      this.chapter,
+      0,
+      0,
+      1,
+      d.width,
+      d.width * (2048/2/1920),
+      10
+    );
+this.scene.add(this.tileChapter.mesh)
+
+
+    let textureLoaded = new THREE.TextureLoader().load(backgroundTexture);
+    
     let backgroundTile = new Tile(
       textureLoaded,
       0,
@@ -80,13 +112,13 @@ export default class App {
       d.width,
       d.height
     );
-    this.scene.add(backgroundTile.mesh);
-    backgroundTile.mesh.position.set(0, -backgroundTile.height / 2, 0);
+    // this.scene.add(backgroundTile.mesh);
+    // backgroundTile.mesh.position.set(0, 0, 0);
 
     for (let i = 0; i < 10; i++) {
       let background = backgroundTile.mesh.clone();
       this.scene.add(background);
-      background.position.set(0, -backgroundTile.height - i * d.height, 0);
+      background.position.set(0,  (-d.height*i), 0);
     }
 
     let ratio = 4096 / 2 / 1920;
@@ -160,9 +192,13 @@ export default class App {
       fish.limits();
       fish.update(delta);
     });
+<<<<<<< HEAD
     this.animationTiles.forEach(animationTile => {
       animationTile.update();
     });
+=======
+    this.animationChapter.update(1000 * delta)
+>>>>>>> feature/clemBis
     this.time += delta;
     // this.renderer.render(this.scene, this.camera);
     this.composer.render();
