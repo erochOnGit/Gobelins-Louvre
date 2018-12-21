@@ -69,24 +69,22 @@ export default class LandingPage {
     let audio = document.createElement("img");
     let title = document.createElement("img");
     title.classList.add("title");
-    let buttonSvg = document.createElement("div");
-    let buttonPic = document.createElement("img");
+    this.buttonSvg = document.createElement("div");
+    this.buttonPic = document.createElement("img");
     title.src = titre;
     audio.src = audioPicto;
-    buttonPic.src = button;
-    buttonSvg.classList.add("button");
+    this.buttonPic.src = button;
+    this.buttonSvg.classList.add("button");
     p.classList.add("paragraphe");
     audio.classList.add("audio");
     p.innerText =
       "La forteresse oubliée du Roi Sargon II, redécouverte par erreur, près de 2000 ans plus tard après sa construction.... Retournez dans le passé et découvrez l’histoire de ce palais éphémère et mystérieux.";
 
-    buttonSvg.addEventListener("click", this.startExperience.bind(this));
-
-    buttonSvg.appendChild(buttonPic);
+    this.buttonSvg.appendChild(this.buttonPic);
     this.section.appendChild(audio);
     this.section.appendChild(title);
     this.section.appendChild(p);
-    this.section.appendChild(buttonSvg);
+    this.section.appendChild(this.buttonSvg);
 
     document.querySelector("#main").appendChild(this.section);
   }

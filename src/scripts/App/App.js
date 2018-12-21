@@ -4,14 +4,14 @@ import browserCheck from "src/utils/browserCheck";
 import backgroundTexture from "src/assets/background.jpg";
 // import chapitre1 from "src/assets/2.png"
 // import chapitre1 from "src/assets/2.png"
-import chapitre1 from "src/assets/sprite-test2.png"
+import chapitre1 from "src/assets/sprite-test2.png";
 
 import Tile from "./Tile";
 import Scene from "./Scene";
 import LandingPage from "./LandingPage";
 
-import TextureAnimator from 'src/utils/TextureAnimator'
-import AnimatedTile from './AnimatedTile'
+import TextureAnimator from "src/utils/TextureAnimator";
+import AnimatedTile from "./AnimatedTile";
 
 import {
   scene1img,
@@ -47,13 +47,13 @@ export default class App {
       0.1,
       1000
     );
-    this.camera.position.z  = 20;
+    this.camera.position.z = 20;
 
     this.scene = new THREE.Scene();
 
     this.landingPage = new LandingPage(this);
     this.scene.add(this.landingPage.group);
-
+    this.loadingState = true;
     //handle scroll and click
     // handleInteraction(this);
     // this.controls = new OrbitControls(this.camera);
@@ -78,10 +78,6 @@ export default class App {
 
     let d = this.getDimensionsFromDistance(this.camera.position.z);
 
-
-
-
-
     let textureLoader = new THREE.TextureLoader();
     this.chapter = textureLoader.load(chapitre1);
     this.animationChapter = new TextureAnimator(this.chapter, 16, 1, 16, 75); // texture, #horiz, #vert, #total, duration.
@@ -92,14 +88,13 @@ export default class App {
       0,
       1,
       d.width,
-      d.width * (2048/2/1920),
+      d.width * (2048 / 2 / 1920),
       10
     );
-this.scene.add(this.tileChapter.mesh)
-
+    this.scene.add(this.tileChapter.mesh);
 
     let textureLoaded = new THREE.TextureLoader().load(backgroundTexture);
-    
+
     let backgroundTile = new Tile(
       textureLoaded,
       0,
@@ -114,7 +109,7 @@ this.scene.add(this.tileChapter.mesh)
     for (let i = 0; i < 10; i++) {
       let background = backgroundTile.mesh.clone();
       this.scene.add(background);
-      background.position.set(0,  (-d.height*i), 0);
+      background.position.set(0, -d.height * i, 0);
     }
 
     let ratio = 4096 / 2 / 1920;
@@ -180,6 +175,23 @@ this.scene.add(this.tileChapter.mesh)
 
     this.renderer.setAnimationLoop(this.render.bind(this));
   }
+  loading() {
+    if (this.loadingState) {
+      this.camera.position.y -= 1;
+      this.landingPage.illustrations[0].position.y -= 1;
+      this.landingPage.buttonSvg.style.display = "none";
+      if (this.camera.position.y < -220) {
+        this.landingPage.buttonSvg.style.display = "block";
+        this.loadingState = false;
+        this.landingPage.illustrations[0].position.y = 0;
+        this.landingPage.buttonSvg.addEventListener(
+          "click",
+          this.landingPage.startExperience.bind(this.landingPage)
+        );
+        this.camera.position.y = 0;
+      }
+    }
+  }
 
   render() {
     var delta = this.clock.getDelta();
@@ -191,12 +203,18 @@ this.scene.add(this.tileChapter.mesh)
     this.animationTiles.forEach(animationTile => {
       animationTile.update();
     });
-    this.animationChapter.update(1000 * delta)
+    this.animationChapter.update(1000 * delta);
     this.time += delta;
     // this.renderer.render(this.scene, this.camera);
     this.composer.render();
+    this.loading();
+    // this.landingPage.illustrations[0].mesh.position.set(
+    //   0,
+    //   this.camera.position.y,
+    //   2
+    // );
+    // console.log(this.tileChapter.mesh.position.y);
 
-    this.camera.position.y -= 1
     this.scene5.hublot(this.time);
     this.scene3.waves(this.time);
     this.waves.waves(this.time);
