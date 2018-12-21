@@ -154,7 +154,6 @@ export default class App {
     this.scene5.group.position.set(0, -7 * this.d.width * ratio * reduce, 0);
 
     this.scene6 = new Scene(scene6img, this.camera, 6);
-    this.animationTiles.push(this.scene6.addLion(0, 0, 0));
     this.scene.add(this.scene6.group);
     this.scene6.group.position.set(0, -8 * this.d.width * ratio * reduce, 0);
 
@@ -163,8 +162,6 @@ export default class App {
     this.scene7.group.position.set(0, -9.5 * this.d.width * ratio * reduce, 0);
 
     this.scene8 = new Scene(scene8img, this.camera, 8);
-    this.animationTiles.push(this.scene8.addStork(1, 1, 0));
-    this.animationTiles.push(this.scene8.addStorkWalking(-1, 1, 0));
     this.scene.add(this.scene8.group);
     this.scene8.group.position.set(0, -10.5 * this.d.width * ratio * reduce, 0);
 
