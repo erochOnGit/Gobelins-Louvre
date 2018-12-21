@@ -8,6 +8,8 @@ import button from "src/assets/LandingPage/button.svg";
 import audioPicto from "src/assets/LandingPage/pictocasque.svg";
 import AnimatedTile from "./AnimatedTile";
 
+import ambiance from 'src/assets/audio/ambiance.mp3'
+
 export default class LandingPage {
   constructor(app) {
     this.group = new THREE.Group();
@@ -95,6 +97,10 @@ export default class LandingPage {
     this.section.style.opacity = 0;
     this.section.style.transform = "translateY(-200px)";
     this.videoDOM.play();
+    this.ambiance = new Audio(ambiance);
+    this.ambiance.volume = 0.25;
+    this.ambiance.play();
+    
     // this.controls = new OrbitControls(this.camera);
   }
   getDimensionsFromDistance(dist) {

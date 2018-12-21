@@ -27,8 +27,16 @@ export default app => {
 
     tweenC = TweenLite.to(app.camera.position, 0.5, {
       ease: Power1.easeOut,
-      y: app.camera.position.y - scroll
+      y: app.camera.position.y - scroll,
+      onStart: ()=>{
+        
+      }
     });
+
+    app.scrollAmount = app.camera.position.y
+
+    
+    
 
     if (scroll > 5) {
       tweenS = TweenLite.to(app.zoomBlur.uniforms.strength, 0.25, {

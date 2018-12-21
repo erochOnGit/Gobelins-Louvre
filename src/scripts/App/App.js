@@ -23,6 +23,14 @@ import {
   scene7img,
   scene8img
 } from "src/utils/sceneImport.js";
+
+import voix_01 from 'src/assets/audio/voix_scene01.mp3'
+import voix_03 from 'src/assets/audio/voix_scene03.mp3'
+import voix_05 from 'src/assets/audio/voix_scene05.mp3'
+import voix_06 from 'src/assets/audio/voix_scene06.mp3'
+import voix_08 from 'src/assets/audio/voix_scene08.mp3'
+
+
 import "./rstat.js";
 
 //composer
@@ -58,6 +66,14 @@ export default class App {
     // handleInteraction(this);
     // this.controls = new OrbitControls(this.camera);
     // this.controls.enabled = false;
+
+    //********* sound  ******/
+
+    this.scrollAmount = 0
+      this.currentScene =0
+
+
+    //********* sound  ******/
 
     //**************** add light to the scene *****************/
 
@@ -196,10 +212,13 @@ this.scene.add(this.tileChapter.mesh)
     // this.renderer.render(this.scene, this.camera);
     this.composer.render();
 
-    this.camera.position.y -= 1
+    // this.camera.position.y -= 1
     this.scene5.hublot(this.time);
     this.scene3.waves(this.time);
     this.waves.waves(this.time);
+
+
+    this.getCurrentScene()
   }
 
   onWindowResize() {
@@ -308,5 +327,47 @@ this.scene.add(this.tileChapter.mesh)
     // this.composer.addPass(bloomPass);
     this.composer.addPass(antialiasPass);
     antialiasPass.renderToScreen = true;
+  }
+
+  getCurrentScene() {
+    console.log(this.scrollAmount)
+    if(this.scrollAmount < -17 && this.scrollAmount > -65 && this.currentScene != 1) {
+      if(this.audio) {
+        this.audio.pause()
+      }
+      this.audio = new Audio(voix_01);
+      this.audio.play();
+      this.currentScene = 1
+    }
+
+    if(this.scrollAmount < -70 && this.scrollAmount > -145 && this.currentScene != 3) {
+      this.audio.pause()
+      this.audio = new Audio(voix_03);
+      this.audio.play();
+      this.currentScene = 3
+    }
+
+    if(this.scrollAmount < -150 && this.scrollAmount > -220 && this.currentScene != 5) {
+      this.audio.pause()
+      this.audio = new Audio(voix_05);
+      this.audio.play();
+      this.currentScene = 5
+    }
+
+    if(this.scrollAmount < -230 && this.scrollAmount > -280 && this.currentScene != 6) {
+      this.audio.pause()
+      this.audio = new Audio(voix_06);
+      this.audio.play();
+      this.currentScene = 6
+    }
+
+    if(this.scrollAmount < -281 && this.scrollAmount > -350 && this.currentScene != 8) {
+      this.audio.pause()
+      this.audio = new Audio(voix_08);
+      this.audio.play();
+      this.currentScene = 8
+    }
+
+
   }
 }
