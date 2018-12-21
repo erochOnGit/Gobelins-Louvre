@@ -5,9 +5,13 @@ import handleInteraction from "src/utils/handleInteraction";
 import browserCheck from "src/utils/browserCheck";
 
 import backgroundTexture from "src/assets/background.jpg";
+import chapitre1 from "src/assets/sprite-chapitre.png"
 
 import Tile from "./Tile";
 import Scene from "./Scene";
+
+import TextureAnimator from 'src/utils/TextureAnimator'
+import AnimatedTile from './AnimatedTile'
 
 import {
   scene1img,
@@ -70,8 +74,30 @@ export default class App {
 
     //***************** add obj to the scene ******************/
 
-    let textureLoaded = new THREE.TextureLoader().load(backgroundTexture);
     let d = this.getDimensionsFromDistance(this.camera.position.z);
+
+
+
+
+
+    let textureLoader = new THREE.TextureLoader();
+    this.chapter = textureLoader.load(chapitre1);
+    this.animationChapter = new TextureAnimator(this.chapter, 8, 5, 60, 75); // texture, #horiz, #vert, #total, duration.
+
+    this.tileChapter = new AnimatedTile(
+      this.chapter,
+      0,
+      0,
+      1,
+      d.width,
+      d.width * (2048/2/1920),
+      10
+    );
+this.scene.add(this.tileChapter.mesh)
+
+
+    let textureLoaded = new THREE.TextureLoader().load(backgroundTexture);
+    
     let backgroundTile = new Tile(
       textureLoaded,
       0,
@@ -80,10 +106,10 @@ export default class App {
       d.width,
       d.height
     );
-    this.scene.add(backgroundTile.mesh);
-    backgroundTile.mesh.position.set(0, 0, 0);
+    // this.scene.add(backgroundTile.mesh);
+    // backgroundTile.mesh.position.set(0, 0, 0);
 
-    for (let i = 1; i < 10; i++) {
+    for (let i = 0; i < 10; i++) {
       let background = backgroundTile.mesh.clone();
       this.scene.add(background);
       background.position.set(0,  (-d.height*i), 0);
@@ -160,6 +186,7 @@ export default class App {
       fish.limits();
       fish.update(delta);
     });
+    this.animationChapter.update(1000 * delta)
     this.time += delta;
     // this.renderer.render(this.scene, this.camera);
     this.composer.render();
