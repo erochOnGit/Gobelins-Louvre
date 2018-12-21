@@ -2,7 +2,9 @@ import * as dat from "dat.gui";
 import browserCheck from "src/utils/browserCheck";
 
 import backgroundTexture from "src/assets/background.jpg";
-import chapitre1 from "src/assets/sprite-chapitre.png"
+// import chapitre1 from "src/assets/2.png"
+// import chapitre1 from "src/assets/2.png"
+import chapitre1 from "src/assets/sprite-test.png"
 
 import Tile from "./Tile";
 import Scene from "./Scene";
@@ -82,7 +84,7 @@ export default class App {
 
     let textureLoader = new THREE.TextureLoader();
     this.chapter = textureLoader.load(chapitre1);
-    this.animationChapter = new TextureAnimator(this.chapter, 8, 5, 60, 75); // texture, #horiz, #vert, #total, duration.
+    this.animationChapter = new TextureAnimator(this.chapter, 2, 1, 2, 75); // texture, #horiz, #vert, #total, duration.
 
     this.tileChapter = new AnimatedTile(
       this.chapter,
