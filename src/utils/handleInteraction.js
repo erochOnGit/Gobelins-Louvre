@@ -4,7 +4,6 @@ let tweenC = null;
 let tweenS = null;
 
 export default app => {
-  console.log(app);
   app.raycaster = new THREE.Raycaster();
   app.mouse = new THREE.Vector2();
   app.intersects = [];
@@ -30,7 +29,6 @@ export default app => {
       ease: Power1.easeOut,
       y: app.camera.position.y - scroll
     });
-
 
     if (scroll > 5) {
       tweenS = TweenLite.to(app.zoomBlur.uniforms.strength, 0.25, {
@@ -69,7 +67,6 @@ export default app => {
   window.addEventListener("touchmove", touchMove.bind(app), false);
 
   let raycastClick = event => {
-    console.log(event)
     // calculate mouse position in normalized device coordinates
     // (-1 to +1) for both components
     app.mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
@@ -79,11 +76,19 @@ export default app => {
     app.raycaster.setFromCamera(app.mouse, app.camera);
 
     // calculate objects intersecting the picking ray
-    app.intersects = app.raycaster.intersectObjects(app.scene.children,true);
-    console.log(app.intersects)
+    app.intersects = app.raycaster.intersectObjects(app.scene.children, true);
 
     for (var i = 0; i < app.intersects.length; i++) {
-      app.intersects[i].object.material.color.set(0xff0000);
+      // app.intersects[i].object.material.color.set(0xff0000);
+      if (app.intersects[i].object.hover) {
+        app.animationTiles.forEach(animationTile => {
+          if (animationTile.id == app.intersects[i].object.name) {
+            // console.log("done", animationTile);
+            animationTile.animate();
+            // console.log(animationTile.hover);
+          }
+        });
+      }
     }
   };
   let raycasHover = event => {
@@ -99,9 +104,12 @@ export default app => {
     app.intersects = app.raycaster.intersectObjects(app.scene.children, true);
 
     for (var i = 0; i < app.intersects.length; i++) {
-      app.intersects[i].object.material.color.set(0xff0000);
+      // app.intersects[i].object.material.color.set(0xff0000);
+      if (app.intersects[i].object.hover) {
+        console.log("on est la");
+      }
     }
   };
-  // window.addEventListener("mousemove", raycasHover.bind(app));
+  window.addEventListener("mousemove", raycasHover.bind(app));
   window.addEventListener("click", raycastClick.bind(app));
 };

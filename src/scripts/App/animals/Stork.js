@@ -4,11 +4,11 @@ import storkEdge from "src/assets/animations/bird/sprite-oiseau01-trait.png";
 import TextureAnimator from "src/utils/TextureAnimator";
 
 export default class Stork {
-  constructor({ position, width, height, vertexCount }) {
+  constructor({ position, width, height, vertexCount, id }) {
     this.width = width;
     this.height = height;
     this.vertexCount = vertexCount;
-
+    this.id = "stork" + id;
     this.position = position || new THREE.TextureLoader();
 
     let textureLoader = new THREE.TextureLoader();
@@ -26,7 +26,8 @@ export default class Stork {
       this.height,
       this.vertexCount
     );
-
+    this.tileEdge.mesh.hover = true;
+    this.tileEdge.mesh.name = this.id;
     this.tileColor = new AnimatedTile(
       this.color,
       this.position.x,
@@ -36,6 +37,8 @@ export default class Stork {
       this.height,
       this.vertexCount
     );
+    this.tileColor.mesh.hover = true;
+    this.tileColor.mesh.name = this.id;
     this.hovered = false;
     this.frame = 0;
   }
@@ -56,15 +59,15 @@ export default class Stork {
       }
     }
 
-    this.tileEdge.mesh.position.set(
-      this.position.x,
-      this.position.y,
-      this.position.z
-    );
-    this.tileColor.mesh.position.set(
-      this.position.x,
-      this.position.y,
-      this.position.z
-    );
+    // this.tileEdge.mesh.position.set(
+    //   this.position.x,
+    //   this.position.y,
+    //   this.position.z
+    // );
+    // this.tileColor.mesh.position.set(
+    //   this.position.x,
+    //   this.position.y,
+    //   this.position.z
+    // );
   }
 }

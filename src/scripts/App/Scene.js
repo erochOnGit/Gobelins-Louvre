@@ -4,7 +4,7 @@ import Lion from "./animals/Lion";
 import Stork from "./animals/Stork";
 import StorkWalking from "./animals/StorkWalking";
 
-import SimplexNoise from 'simplex-noise'
+import SimplexNoise from "simplex-noise";
 
 export default class Scene {
   constructor(images, camera, index) {
@@ -47,27 +47,32 @@ export default class Scene {
     }
   }
 
+  //you can add only 1 lion to every scene it's not generic
   addLion(x, y, z) {
     let lion = new Lion({
       position: new THREE.Vector3(x, y, z),
-      width: 2,
-      height: 2,
-      vertexCount: 10
+      width: 4,
+      height: 4,
+      vertexCount: 10,
+      id: this.index
     });
+
     lion.tileEdge.mesh.renderOrder = this.index;
     lion.tileColor.mesh.renderOrder = this.index;
-    lion.tileEdge.mesh.position.set(x, y, 2);
-    lion.tileColor.mesh.position.set(x, y, 2);
+    // let d = this.getDimensionsFromDistance(y);
+    lion.tileEdge.mesh.position.set(x, y, 4);
+    lion.tileColor.mesh.position.set(x, y, 4);
 
     this.group.add(lion.tileEdge.mesh);
     this.group.add(lion.tileColor.mesh);
+    return lion;
   }
 
   addStork(x, y, z) {
     let stork = new Stork({
       position: new THREE.Vector3(x, y, z),
-      width: 2,
-      height: 2,
+      width: 4,
+      height: 4,
       vertexCount: 10
     });
     stork.tileEdge.mesh.renderOrder = this.index;
@@ -77,6 +82,7 @@ export default class Scene {
 
     this.group.add(stork.tileEdge.mesh);
     this.group.add(stork.tileColor.mesh);
+    return stork;
   }
 
   addStorkWalking(x, y, z) {
@@ -93,6 +99,7 @@ export default class Scene {
 
     this.group.add(storkWalking.tileEdge.mesh);
     this.group.add(storkWalking.tileColor.mesh);
+    return storkWalking;
   }
   addImages() {
     for (let i = 0; i < Object.keys(this.images).length; i++) {
@@ -157,16 +164,16 @@ export default class Scene {
   }
 
   waves(t) {
-    this.illustrations.forEach((wave)=>{
-      wave.mesh.position.x = this.simplex.noise2D(wave.y, t/5)/2
-      wave.mesh.position.y = wave.x + this.simplex.noise2D(wave.y, t/5)/3
-      this.group.scale.set(1.1,1.1,1.1)
-    })
+    this.illustrations.forEach(wave => {
+      wave.mesh.position.x = this.simplex.noise2D(wave.y, t / 5) / 2;
+      wave.mesh.position.y = wave.x + this.simplex.noise2D(wave.y, t / 5) / 3;
+      this.group.scale.set(1.1, 1.1, 1.1);
+    });
   }
 
   hublot(t) {
-    let wave = this.illustrations[0]
-      wave.mesh.position.x = this.simplex.noise2D(wave.x, t/5)/2
-      wave.mesh.position.y = wave.x + this.simplex.noise2D(wave.y, t/5)/3
+    let wave = this.illustrations[0];
+    wave.mesh.position.x = this.simplex.noise2D(wave.x, t / 5) / 2;
+    wave.mesh.position.y = wave.x + this.simplex.noise2D(wave.y, t / 5) / 3;
   }
 }

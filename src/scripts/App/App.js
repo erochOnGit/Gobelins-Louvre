@@ -91,15 +91,12 @@ export default class App {
 
     let ratio = 4096 / 2 / 1920;
     let reduce = 0.5;
-
+    this.animationTiles = [];
     this.scene1 = new Scene(scene1img, this.camera, 1);
     this.scene.add(this.scene1.group);
     this.scene1.group.position.set(0, -d.width * ratio * reduce, 0);
 
     this.scene2 = new Scene(scene2img, this.camera, 2);
-    this.scene2.addLion(0, 0, 0);
-    this.scene2.addStork(1, 1, 0);
-    this.scene2.addStorkWalking(-1, 1, 0);
     this.scene.add(this.scene2.group);
     this.scene2.group.position.set(0, -1.7 * d.width * ratio * reduce, 0);
 
@@ -120,6 +117,7 @@ export default class App {
     this.scene5.group.position.set(0, -7 * d.width * ratio * reduce, 0);
 
     this.scene6 = new Scene(scene6img, this.camera, 6);
+    this.animationTiles.push(this.scene6.addLion(0, 0, 0));
     this.scene.add(this.scene6.group);
     this.scene6.group.position.set(0, -8 * d.width * ratio * reduce, 0);
 
@@ -128,6 +126,8 @@ export default class App {
     this.scene7.group.position.set(0, -9.5 * d.width * ratio * reduce, 0);
 
     this.scene8 = new Scene(scene8img, this.camera, 8);
+    this.animationTiles.push(this.scene8.addStork(1, 1, 0));
+    this.animationTiles.push(this.scene8.addStorkWalking(-1, 1, 0));
     this.scene.add(this.scene8.group);
     this.scene8.group.position.set(0, -10.5 * d.width * ratio * reduce, 0);
 
@@ -160,14 +160,17 @@ export default class App {
       fish.limits();
       fish.update(delta);
     });
+    this.animationTiles.forEach(animationTile => {
+      animationTile.update();
+    });
     this.time += delta;
     // this.renderer.render(this.scene, this.camera);
     this.composer.render();
 
     // this.camera.position.y -= 0.01
-    this.scene5.hublot(this.time)
-    this.scene3.waves(this.time)
-    this.waves.waves(this.time)
+    this.scene5.hublot(this.time);
+    this.scene3.waves(this.time);
+    this.waves.waves(this.time);
   }
 
   onWindowResize() {

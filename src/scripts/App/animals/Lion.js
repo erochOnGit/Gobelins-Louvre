@@ -4,13 +4,12 @@ import lionEdge from "src/assets/animations/lion/sprite-lion-trait.png";
 import TextureAnimator from "src/utils/TextureAnimator";
 
 export default class Lion {
-  constructor({ position, width, height, vertexCount }) {
+  constructor({ position, width, height, vertexCount, id }) {
     this.width = width;
     this.height = height;
     this.vertexCount = vertexCount;
-
     this.position = position || new THREE.TextureLoader();
-
+    this.id = "lion" + id;
     let textureLoader = new THREE.TextureLoader();
     this.edge = textureLoader.load(lionColor);
     this.color = textureLoader.load(lionEdge);
@@ -27,6 +26,8 @@ export default class Lion {
       this.vertexCount
     );
 
+    this.tileEdge.mesh.hover = true;
+    this.tileEdge.mesh.name = this.id;
     this.tileColor = new AnimatedTile(
       this.color,
       this.position.x,
@@ -36,6 +37,9 @@ export default class Lion {
       this.height,
       this.vertexCount
     );
+
+    this.tileColor.mesh.hover = true;
+    this.tileColor.mesh.name = this.id;
     this.hovered = false;
     this.frame = 0;
   }
@@ -56,15 +60,15 @@ export default class Lion {
       }
     }
 
-    this.tileEdge.mesh.position.set(
-      this.position.x,
-      this.position.y,
-      this.position.z
-    );
-    this.tileColor.mesh.position.set(
-      this.position.x,
-      this.position.y,
-      this.position.z
-    );
+    // this.tileEdge.mesh.position.set(
+    //   this.position.x,
+    //   this.position.y,
+    //   this.position.z
+    // );
+    // this.tileColor.mesh.position.set(
+    //   this.position.x,
+    //   this.position.y,
+    //   this.position.z
+    // );
   }
 }
