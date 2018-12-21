@@ -90,7 +90,7 @@ export default class App {
 
     //***************** add obj to the scene ******************/
 
-    let d = this.getDimensionsFromDistance(this.camera.position.z);
+    this.d = this.getDimensionsFromDistance(this.camera.position.z);
 
     let textureLoader = new THREE.TextureLoader();
     this.chapter = textureLoader.load(chapitre1);
@@ -101,8 +101,8 @@ export default class App {
       0,
       0,
       1,
-      d.width,
-      d.width * (2048 / 2 / 1920),
+      this.d.width,
+      this.d.width * (2048/2/1920),
       10
     );
     this.scene.add(this.tileChapter.mesh);
@@ -114,8 +114,8 @@ export default class App {
       0,
       0,
       0 / 100,
-      d.width,
-      d.height
+      this.d.width,
+      this.d.height
     );
     // this.scene.add(backgroundTile.mesh);
     // backgroundTile.mesh.position.set(0, 0, 0);
@@ -123,7 +123,7 @@ export default class App {
     for (let i = 0; i < 10; i++) {
       let background = backgroundTile.mesh.clone();
       this.scene.add(background);
-      background.position.set(0, -d.height * i, 0);
+      background.position.set(0,  (-this.d.height*i), 0);
     }
 
     let ratio = 4096 / 2 / 1920;
@@ -131,42 +131,42 @@ export default class App {
     this.animationTiles = [];
     this.scene1 = new Scene(scene1img, this.camera, 1);
     this.scene.add(this.scene1.group);
-    this.scene1.group.position.set(0, -d.width * ratio * reduce, 0);
+    this.scene1.group.position.set(0, -this.d.width * ratio * reduce, 0);
 
     this.scene2 = new Scene(scene2img, this.camera, 2);
     this.scene.add(this.scene2.group);
-    this.scene2.group.position.set(0, -1.7 * d.width * ratio * reduce, 0);
+    this.scene2.group.position.set(0, -1.7 * this.d.width * ratio * reduce, 0);
 
     this.scene3 = new Scene(scene3img, this.camera, 3);
     this.scene.add(this.scene3.group);
-    this.scene3.group.position.set(0, -3.5 * d.width * ratio * reduce, 0);
+    this.scene3.group.position.set(0, -3.5 * this.d.width * ratio * reduce, 0);
 
     this.waves = new Scene(scene3img, this.camera, 4);
     this.scene.add(this.waves.group);
-    this.waves.group.position.set(0, -4.5 * d.width * ratio * reduce, 0);
+    this.waves.group.position.set(0, -4.5 * this.d.width * ratio * reduce, 0);
 
     this.scene4 = new Scene(scene4img, this.camera, 5);
     this.scene.add(this.scene4.group);
-    this.scene4.group.position.set(0, -4.5 * d.width * ratio * reduce, 0);
+    this.scene4.group.position.set(0, -4.5 * this.d.width * ratio * reduce, 0);
 
     this.scene5 = new Scene(scene5img, this.camera, 8);
     this.scene.add(this.scene5.group);
-    this.scene5.group.position.set(0, -7 * d.width * ratio * reduce, 0);
+    this.scene5.group.position.set(0, -7 * this.d.width * ratio * reduce, 0);
 
     this.scene6 = new Scene(scene6img, this.camera, 6);
     this.animationTiles.push(this.scene6.addLion(0, 0, 0));
     this.scene.add(this.scene6.group);
-    this.scene6.group.position.set(0, -8 * d.width * ratio * reduce, 0);
+    this.scene6.group.position.set(0, -8 * this.d.width * ratio * reduce, 0);
 
     this.scene7 = new Scene(scene7img, this.camera, 7);
     this.scene.add(this.scene7.group);
-    this.scene7.group.position.set(0, -9.5 * d.width * ratio * reduce, 0);
+    this.scene7.group.position.set(0, -9.5 * this.d.width * ratio * reduce, 0);
 
     this.scene8 = new Scene(scene8img, this.camera, 8);
     this.animationTiles.push(this.scene8.addStork(1, 1, 0));
     this.animationTiles.push(this.scene8.addStorkWalking(-1, 1, 0));
     this.scene.add(this.scene8.group);
-    this.scene8.group.position.set(0, -10.5 * d.width * ratio * reduce, 0);
+    this.scene8.group.position.set(0, -10.5 * this.d.width * ratio * reduce, 0);
 
     this.fishes = [];
     this.scene3.addFishes(this.fishes);
@@ -345,14 +345,9 @@ export default class App {
   }
 
   getCurrentScene() {
-    console.log(this.scrollAmount);
-    if (
-      this.scrollAmount < -17 &&
-      this.scrollAmount > -65 &&
-      this.currentScene != 1
-    ) {
-      if (this.audio) {
-        this.audio.pause();
+    if(this.scrollAmount < -17 && this.scrollAmount > -65 && this.currentScene != 1) {
+      if(this.audio) {
+        this.audio.pause()
       }
       this.audio = new Audio(voix_01);
       this.audio.play();
