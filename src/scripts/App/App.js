@@ -45,7 +45,7 @@ export default class App {
       0.1,
       1000
     );
-    this.camera.position.z = 20;
+    this.camera.position.z  = 20;
 
     this.scene = new THREE.Scene();
 
@@ -53,15 +53,9 @@ export default class App {
     this.scene.add(this.landingPage.group);
 
     //handle scroll and click
-<<<<<<< HEAD
     // handleInteraction(this);
     // this.controls = new OrbitControls(this.camera);
     // this.controls.enabled = false;
-=======
-    handleInteraction(this);
-    this.controls = new OrbitControls(this.camera);
-    this.controls.enabled = true;
->>>>>>> feature/clemBis
 
     //**************** add light to the scene *****************/
 
@@ -192,13 +186,10 @@ this.scene.add(this.tileChapter.mesh)
       fish.limits();
       fish.update(delta);
     });
-<<<<<<< HEAD
     this.animationTiles.forEach(animationTile => {
       animationTile.update();
     });
-=======
     this.animationChapter.update(1000 * delta)
->>>>>>> feature/clemBis
     this.time += delta;
     // this.renderer.render(this.scene, this.camera);
     this.composer.render();
