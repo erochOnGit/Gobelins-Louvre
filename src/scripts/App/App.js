@@ -4,7 +4,7 @@ import browserCheck from "src/utils/browserCheck";
 import backgroundTexture from "src/assets/background.jpg";
 // import chapitre1 from "src/assets/2.png"
 // import chapitre1 from "src/assets/2.png"
-import chapitre1 from "src/assets/sprite-test.png"
+import chapitre1 from "src/assets/sprite-test2.png"
 
 import Tile from "./Tile";
 import Scene from "./Scene";
@@ -84,7 +84,7 @@ export default class App {
 
     let textureLoader = new THREE.TextureLoader();
     this.chapter = textureLoader.load(chapitre1);
-    this.animationChapter = new TextureAnimator(this.chapter, 2, 1, 2, 75); // texture, #horiz, #vert, #total, duration.
+    this.animationChapter = new TextureAnimator(this.chapter, 16, 1, 16, 75); // texture, #horiz, #vert, #total, duration.
 
     this.tileChapter = new AnimatedTile(
       this.chapter,
@@ -196,7 +196,7 @@ this.scene.add(this.tileChapter.mesh)
     // this.renderer.render(this.scene, this.camera);
     this.composer.render();
 
-    // this.camera.position.y -= 0.01
+    this.camera.position.y -= 1
     this.scene5.hublot(this.time);
     this.scene3.waves(this.time);
     this.waves.waves(this.time);
